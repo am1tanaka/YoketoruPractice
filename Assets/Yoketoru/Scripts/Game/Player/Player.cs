@@ -19,6 +19,14 @@ public class Player : MonoBehaviour, IGameStateListener
 
     public UnityEvent<IGameStateListener> GameStateListenerDestroyed { get; private set; } = new();
 
+    InputsToAction inputsToAction = new();
+    IMover mover;
+
+    void Awake()
+    {
+        mover = GetComponent<IMover>();
+    }
+
     /// <summary>
     /// フレーム更新
     /// </summary>
@@ -60,13 +68,16 @@ public class Player : MonoBehaviour, IGameStateListener
 
             case State.Miss:
                 Debug.Log($"ミスの演出。なければ消す");
+                mover.Move(Vector2.zero);
                 break;
 
             case State.Clear:
+                mover.Move(Vector2.zero);
                 Debug.Log($"クリア演出。なければ消す");
                 break;
 
             case State.Reset:
+                mover.Move(Vector2.zero);
                 Debug.Log($"座標と向きを、Awakeで記録したものに戻す");
                 break;
         }
@@ -80,6 +91,7 @@ public class Player : MonoBehaviour, IGameStateListener
         switch (state.CurrentState)
         {
             case State.Play:
+                inputsToAction.Update();
                 break;
         }
     }
@@ -92,6 +104,7 @@ public class Player : MonoBehaviour, IGameStateListener
         switch (state.CurrentState)
         {
             case State.Play:
+                mover.Move(inputsToAction.GetValue());
                 break;
         }
     }
