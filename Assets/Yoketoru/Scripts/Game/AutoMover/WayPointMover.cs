@@ -47,6 +47,9 @@ public class WayPointMover : MonoBehaviour, IStartStop
 
     void FixedUpdate()
     {
+        if (!isStarted) { return; }
+        Debug.Log($"移動 {Time.frameCount}");
+
         // 移動ベクトルを求める
 
         // 目的地までの残りの距離を求める
