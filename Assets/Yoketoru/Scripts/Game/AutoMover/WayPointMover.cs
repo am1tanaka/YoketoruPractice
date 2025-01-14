@@ -37,13 +37,15 @@ public class WayPointMover : MonoBehaviour, IStartStop
     /// </summary>
     int indexStep = 1;
 
+    bool isStarted = false;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         nextIndex = startNextIndex;
     }
 
-    public void Move(float delta)
+    void FixedUpdate()
     {
         // 移動ベクトルを求める
 
@@ -70,11 +72,11 @@ public class WayPointMover : MonoBehaviour, IStartStop
 
     public void OnGameStarted()
     {
-        Debug.Log($"{name} 移動開始");
+        isStarted = true;
     }
 
     public void OnGameStopped()
     {
-        Debug.Log($"{name} 移動停止");
+        isStarted = false;
     }
 }
