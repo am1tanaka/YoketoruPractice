@@ -51,15 +51,20 @@ public class WayPointMover : MonoBehaviour, IStartStop
         Debug.Log($"移動 {Time.frameCount}");
 
         // 移動ベクトルを求める
+        Vector3 toTarget = wayPoints[nextIndex] - transform.position;
 
         // 目的地までの残りの距離を求める
+        float distance = toTarget.magnitude;
 
         // 1回分の移動距離を求める
+        float step = speed * Time.fixedDeltaTime;
 
         // 次の移動で到着するなら、目的地を切り替える
         // 到着しないなら、1回分の距離を移動
+        Vector3 move = step * toTarget.normalized;
 
         // rb.MovePositionを使って移動。現在座標は、rb.positionで参照
+        rb.MovePosition(rb.position + move);
     }
 
     void OnDrawGizmosSelected()
